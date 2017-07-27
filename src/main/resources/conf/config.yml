@@ -1,0 +1,90 @@
+#This will publish metrics to one tier (highly recommended)
+#Instructions on how to retrieve the Component ID can be found in the Metric Path section of https://docs.appdynamics.com/display/PRO42/Build+a+Monitoring+Extension+Using+Java
+#For Controllers 4.2.10+, you can also use the tier name instead of the component ID.
+metricPrefix: "Server|Component:<COMPONENT_ID>|Custom Metrics|MongoDB Ops Manager Monitor|"
+
+#Add your MongoDB OPS Manager server here.
+servers:
+   - uri: "http://54.218.226.84:8080/api/public/v1.0/"
+     name: "Ops Manager 1"
+     username: "aditya.jagtiani@appdynamics.com"
+     password: "450a92da-c807-4764-81da-ffa7e3e32851"
+
+#Generic metric prefix used to show metrics in AppDynamics (not recommended)
+#metricPrefix: "Custom Metrics|Spark"
+
+numberOfThreads: 5
+
+## This section can be used to configure metrics published by the extension. You have the ability to add multipliers & modify the metric qualifiers for each metric.
+## Valid 'cluster' rollup values: INDIVIDUAL, COLLECTIVE
+## Valid 'aggregation' types: AVERAGE, SUM, OBSERVATION
+## Valid 'time' rollup types: AVERAGE, SUM, CURRENT
+## You can choose to not add any or all of these fields to any metric and the default values for each of the above will be used (INDIVIDUAL, AVERAGE & AVERAGE for cluster, aggregation & time respectively).
+
+metrics:
+     asserts:
+        - ASSERT_REGULAR:
+            alias: "ASSERT_REGULAR"
+            multiplier: "1.0"
+            cluster: "INDIVIDUAL"
+            aggregation: "AVERAGE"
+            time: "SUM"
+            delta: "false"
+        - ASSERT_WARNING:
+            alias: ""
+            multiplier: ""
+        - ASSERT_MSG:
+            alias: ""
+            multiplier: ""
+        - ASSERT_USER:
+            alias: ""
+            multiplier: ""
+
+     memory:
+        - MEMORY_RESIDENT:
+            alias: "MEMORY_RESIDENT"
+            multiplier: "1.0"
+        - MEMORY_VIRTUAL:
+            alias: ""
+            multiplier: ""
+        - MEMORY_MAPPED:
+            alias: ""
+            multiplier: ""
+
+     network:
+        - NETWORK_BYTES_IN:
+            alias: "NETWORK_BYTES_IN" #bytes per second
+            multiplier: "1.0"
+        - NETWORK_BYTES_OUT:
+            alias: "" #bytes per second
+            multiplier: ""
+        - NETWORK_NUM_REQUESTS:
+            alias: "" #scalar per second
+            multiplier: ""
+
+     connections:
+        - CONNECTIONS:
+            alias: "CONNECTIONS" #Total number of connections to the DB server
+            multiplier: "1.0"
+
+     operations:
+        - OPCOUNTER_CMD:
+            alias: "OPCOUNTER_CMD" #Total number of commands issued to the DB
+            multiplier: "1.0"
+        - OPCOUNTER_INSERT:
+            alias: "" #Total number of insert operations
+            multiplier: ""
+        - OPCOUNTER_QUERY:
+            alias: "" #Total number of query operations
+            multiplier: ""
+        - OPCOUNTER_UPDATE:
+            alias: "OPCOUNTER_CMD" #Total number of update operations
+            multiplier: "1.0"
+        - OPCOUNTER_DELETE:
+            alias: "" #Total number of delete operations
+            multiplier: ""
+        - OPCOUNTER_GETMORE:
+            alias: "" #Total number of getmore operations
+            multiplier: ""
+
+

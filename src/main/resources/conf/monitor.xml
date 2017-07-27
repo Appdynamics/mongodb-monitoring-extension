@@ -1,0 +1,24 @@
+<monitor>
+    <name>MongoDBOpsManagerMonitor</name>
+    <type>managed</type>
+    <description>MongoDB Ops Manager monitor</description>
+    <monitor-configuration></monitor-configuration>
+    <enabled>true</enabled>
+    <monitor-run-task>
+        <execution-style>periodic</execution-style>
+        <execution-frequency-in-seconds>60</execution-frequency-in-seconds>
+        <name>MongoDB Ops Manager Monitor Run Task</name>
+        <display-name>MongoDB Ops Manager Monitor Task</display-name>
+        <description>MongoDB Ops Manager Monitor Task</description>
+        <type>java</type>
+        <execution-timeout-in-secs>60</execution-timeout-in-secs>
+        <task-arguments>
+            <!-- config file-->
+            <argument name="config-file" is-required="true" default-value="monitors/MongoDBOpsManagerMonitor/config.yml" />
+        </task-arguments>
+        <java-task>
+            <classpath>mongodb-opsmanager-monitoring-extension.jar</classpath>
+            <impl-class>com.appdynamics.extensions.mongodb.MongoDBOpsManagerMonitor</impl-class>
+        </java-task>
+    </monitor-run-task>
+</monitor>
