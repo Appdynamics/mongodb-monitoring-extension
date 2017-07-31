@@ -43,7 +43,7 @@ public class MongoDbMetricProcessor {
             for(Map metric : metricsFromConfig) {
                 Map.Entry<String, String> entry = (Map.Entry) metric.entrySet().iterator().next();
                 String currentMetricNameFromCfg = entry.getKey();
-                if(currentMetricNameFromHost.equals(currentMetricNameFromCfg) && !node.get("dataPoints").findValue("value").asText().equals("null")) {
+                if(currentMetricNameFromHost.equals(currentMetricNameFromCfg) /*&& !node.get("dataPoints").findValue("value").asText().equals("null")*/) {
                     mongoDbMetrics.put(currentMetricPath + currentMetricNameFromCfg, MongoDBOpsManagerUtils.convertDoubleToBigDecimal(node.get("dataPoints").findValue("value").asDouble()));
                     MetricPropertiesBuilder.buildMetricPropsMap(metric, currentMetricNameFromCfg, currentMetricPath);
                 }

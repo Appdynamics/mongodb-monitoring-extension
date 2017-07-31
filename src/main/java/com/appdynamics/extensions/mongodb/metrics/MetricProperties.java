@@ -1,7 +1,7 @@
 package com.appdynamics.extensions.mongodb.metrics;
 
 /**
- * Created by aditya.jagtiani on 7/12/17.
+ * Created by aditya.jagtiani on 7/25/17.
  */
 public class MetricProperties {
     private String metricName;
@@ -76,3 +76,4 @@ public class MetricProperties {
         return delta;
     }
 }
+

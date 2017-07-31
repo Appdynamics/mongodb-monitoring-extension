@@ -87,4 +87,44 @@ metrics:
             alias: "" #Total number of getmore operations
             multiplier: ""
 
+     disks:
+        - DISK_PARTITION_IOPS_READ:
+            alias: "OPCOUNTER_CMD" #Total number of commands issued to the DB
+            multiplier: "1.0"
+        - DISK_PARTITION_IOPS_WRITE:
+            alias: "" #Total number of insert operations
+            multiplier: ""
+        - DISK_PARTITION_IOPS_UTILIZATION:
+            alias: "" #Total number of query operations
+            multiplier: ""
+        - DISK_PARTITION_LATENCY_READ:
+            alias: "OPCOUNTER_CMD" #Total number of update operations
+            multiplier: "1.0"
+        - DISK_PARTITION_LATENCY_WRITE:
+            alias: "" #Total number of delete operations
+            multiplier: ""
+        - DISK_PARTITION_SPACE_PERCENT_USED:
+            alias: "" #Total number of getmore operations
+            multiplier: ""
+
+     database:
+        - DATABASE_AVERAGE_OBJECT_SIZE:
+            alias: "OPCOUNTER_CMD" #Total number of commands issued to the DB
+            multiplier: "1.0"
+        - DATABASE_COLLECTION_COUNT:
+            alias: "" #Total number of insert operations
+            multiplier: ""
+        - DATABASE_DATA_SIZE:
+            alias: "" #Total number of query operations
+            multiplier: ""
+        - DATABASE_STORAGE_SIZE:
+            alias: "OPCOUNTER_CMD" #Total number of update operations
+            multiplier: "1.0"
+        - DATABASE_INDEX_SIZE:
+            alias: "" #Total number of delete operations
+            multiplier: ""
+        - DATABASE_INDEX_COUNT:
+            alias: "" #Total number of getmore operations
+            multiplier: ""
+
 
