@@ -64,6 +64,7 @@ public class MetricProperties {
     void setMetricPath(String metricPath) {
         this.metricPath = metricPath;
     }
+
     public String getMetricPath() {
         return metricPath;
     }

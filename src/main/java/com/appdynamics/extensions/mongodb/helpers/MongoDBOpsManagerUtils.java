@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class MongoDBOpsManagerUtils {
     private static final Logger logger = LoggerFactory.getLogger(MongoDBOpsManagerUtils.class);
+
     public static JsonNode getJsonNode(CloseableHttpResponse response) throws IOException {
         String data = EntityUtils.toString(response.getEntity(), "UTF-8");
         return getJsonNode(data);
@@ -46,8 +47,8 @@ public class MongoDBOpsManagerUtils {
 
     public static List<JsonNode> getMeasurementsOnlyForCurrentMetricType(String metricType, List<JsonNode> allMeasurements) {
         List<JsonNode> measurementsForCurrentMetricType = Lists.newArrayList();
-        for(JsonNode node : allMeasurements) {
-            if(node.findValue("name").asText().toLowerCase().contains(metricType.toLowerCase())) {
+        for (JsonNode node : allMeasurements) {
+            if (node.findValue("name").asText().toLowerCase().contains(metricType.toLowerCase())) {
                 measurementsForCurrentMetricType.add(node);
             }
         }

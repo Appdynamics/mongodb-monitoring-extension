@@ -23,23 +23,33 @@ public class MongoDbMetricProcessor {
     private List<Map>metricsFromConfig;
     private List<JsonNode> metricsFromHost;
     private String metricType;
+    private String entityName;
 
-    public MongoDbMetricProcessor(String hostName, String metricType, List<JsonNode> metricsFromHost, List<Map> metricsFromConfig) {
+    public MongoDbMetricProcessor(String hostName, String metricType, List<JsonNode> metricsFromHost,
+                                  List<Map> metricsFromConfig, String entityName) {
         this.hostName = hostName;
         this.metricType = metricType;
         this.metricsFromHost = metricsFromHost;
         this.metricsFromConfig = metricsFromConfig;
+        this.entityName = entityName;
     }
 
     public Map<String, BigDecimal> populateMetrics() throws IOException {
+        String currentMetricPath;
         if(!MongoDBOpsManagerUtils.isValidationSuccessful(metricsFromConfig, metricsFromHost, metricType)) {
             return Maps.newHashMap();
         }
         Map<String, BigDecimal> mongoDbMetrics = Maps.newHashMap();
         for(JsonNode node : metricsFromHost) {
             String currentMetricNameFromHost = node.findValue("name").asText();
-            String currentMetricPath = "Hosts" + METRIC_SEPARATOR + hostName + METRIC_SEPARATOR + metricType + METRIC_SEPARATOR;
-            logger.info("Fetching assert metrics for host " +hostName);
+            if(!entityName.equals("")) {
+                currentMetricPath = "Hosts" + METRIC_SEPARATOR + hostName + METRIC_SEPARATOR + metricType +
+                        METRIC_SEPARATOR + entityName + METRIC_SEPARATOR;
+            }
+            else {
+                currentMetricPath = "Hosts" + METRIC_SEPARATOR + hostName + METRIC_SEPARATOR + metricType + METRIC_SEPARATOR;
+            }
+            logger.info("Fetching "+metricType+" metrics for host " +hostName);
             for(Map metric : metricsFromConfig) {
                 Map.Entry<String, String> entry = (Map.Entry) metric.entrySet().iterator().next();
                 String currentMetricNameFromCfg = entry.getKey();
@@ -48,7 +58,7 @@ public class MongoDbMetricProcessor {
                     MetricPropertiesBuilder.buildMetricPropsMap(metric, currentMetricNameFromCfg, currentMetricPath);
                 }
                 else {
-                    logger.debug("Metric " +currentMetricNameFromCfg+ "not found for host " +hostName+ ". Please verify whether correct metric names have been configured in the config.yml");
+                    logger.debug("Metric " +currentMetricNameFromCfg+ "either not found for host " +hostName+ " or it's value is null. Skipping.");
                 }
             }
         }

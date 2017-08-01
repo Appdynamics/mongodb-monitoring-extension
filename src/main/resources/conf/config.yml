@@ -10,17 +10,20 @@ servers:
      username: "aditya.jagtiani@appdynamics.com"
      password: "450a92da-c807-4764-81da-ffa7e3e32851"
 
-#Generic metric prefix used to show metrics in AppDynamics (not recommended)
-#metricPrefix: "Custom Metrics|Spark"
+#Generic metric prefix used to publish metrics to all tiers (NOT RECOMMENDED)
+#metricPrefix: "Custom Metrics|MongoDB Ops Manager Monitor"
 
 numberOfThreads: 5
+
+databases: [local, test]
+disks:
+
 
 ## This section can be used to configure metrics published by the extension. You have the ability to add multipliers & modify the metric qualifiers for each metric.
 ## Valid 'cluster' rollup values: INDIVIDUAL, COLLECTIVE
 ## Valid 'aggregation' types: AVERAGE, SUM, OBSERVATION
 ## Valid 'time' rollup types: AVERAGE, SUM, CURRENT
 ## You can choose to not add any or all of these fields to any metric and the default values for each of the above will be used (INDIVIDUAL, AVERAGE & AVERAGE for cluster, aggregation & time respectively).
-
 metrics:
      asserts:
         - ASSERT_REGULAR:
