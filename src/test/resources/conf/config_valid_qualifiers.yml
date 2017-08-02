@@ -1,0 +1,9 @@
+metrics:
+     asserts:
+        - ASSERT_REGULAR:
+            alias: "ASSERT_REGULAR"
+            multiplier: "2.5"
+            cluster: "INDIVIDUAL"
+            aggregation: "AVERAGE"
+            time: "SUM"
+            delta: "true"

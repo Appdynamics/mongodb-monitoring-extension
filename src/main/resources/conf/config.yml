@@ -11,13 +11,11 @@ servers:
      password: "450a92da-c807-4764-81da-ffa7e3e32851"
 
 #Generic metric prefix used to publish metrics to all tiers (NOT RECOMMENDED)
-#metricPrefix: "Custom Metrics|MongoDB Ops Manager Monitor"
+#metricPrefix: "Custom Metrics|MongoDB Ops Manager Monitor|"
 
 numberOfThreads: 5
 
 databases: [local, test]
-disks:
-
 
 ## This section can be used to configure metrics published by the extension. You have the ability to add multipliers & modify the metric qualifiers for each metric.
 ## Valid 'cluster' rollup values: INDIVIDUAL, COLLECTIVE

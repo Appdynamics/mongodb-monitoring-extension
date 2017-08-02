@@ -12,7 +12,7 @@ public class MongoDBOpsManagerMonitorTask implements Runnable {
     private MonitorConfiguration configuration;
     private Map server;
 
-    public MongoDBOpsManagerMonitorTask(MonitorConfiguration configuration, Map server) {
+    MongoDBOpsManagerMonitorTask(MonitorConfiguration configuration, Map server) {
         this.configuration = configuration;
         this.server = server;
     }

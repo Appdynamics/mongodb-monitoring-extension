@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class MongoDBOpsManagerMonitor extends AManagedMonitor {
     private static final Logger logger = LoggerFactory.getLogger(MongoDBOpsManagerMonitor.class);
     private MonitorConfiguration configuration;
@@ -27,7 +26,7 @@ public class MongoDBOpsManagerMonitor extends AManagedMonitor {
         logger.info("Using MongoDB Ops Manager Monitor Version [" + getImplementationVersion() + "]");
     }
 
-    protected void initialize(Map<String, String> argsMap) {
+    private void initialize(Map<String, String> argsMap) {
         if (configuration == null) {
             MetricWriteHelper metricWriter = MetricWriteHelperFactory.create(this);
             MonitorConfiguration conf = new MonitorConfiguration("Custom Metrics|MongoDB Ops Manager|", new TaskRunner(), metricWriter);

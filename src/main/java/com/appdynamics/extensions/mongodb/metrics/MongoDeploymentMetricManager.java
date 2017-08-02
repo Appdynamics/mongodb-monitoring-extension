@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.appdynamics.extensions.mongodb.helpers.Constants.*;
+import static com.appdynamics.extensions.mongodb.helpers.MongoDBOpsManagerUtils.getMeasurementsOnlyForCurrentMetricType;
 
 /**
  * Created by aditya.jagtiani on 7/12/17.
@@ -56,19 +57,19 @@ public class MongoDeploymentMetricManager {
         String hostMeasurementsUrl = buildUrl(hostsUrl, hostId + MEASUREMENTS_ENDPOINT);
         List<JsonNode> measurements = fetchMongoEntity(hostMeasurementsUrl, "measurements");
         systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "asserts",
-                MongoDBOpsManagerUtils.getMeasurementsOnlyForCurrentMetricType("assert", measurements),
+                getMeasurementsOnlyForCurrentMetricType("assert", measurements),
                 (List) includedMetrics.get("asserts"), "").populateMetrics());
         systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "memory",
-                MongoDBOpsManagerUtils.getMeasurementsOnlyForCurrentMetricType("memory", measurements),
+                getMeasurementsOnlyForCurrentMetricType("memory", measurements),
                 (List) includedMetrics.get("memory"), "").populateMetrics());
         systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "network",
-                MongoDBOpsManagerUtils.getMeasurementsOnlyForCurrentMetricType("network", measurements),
+                getMeasurementsOnlyForCurrentMetricType("network", measurements),
                 (List) includedMetrics.get("network"), "").populateMetrics());
         systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "connections",
-                MongoDBOpsManagerUtils.getMeasurementsOnlyForCurrentMetricType("connections", measurements),
+                getMeasurementsOnlyForCurrentMetricType("connections", measurements),
                 (List) includedMetrics.get("connections"), "").populateMetrics());
         systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "operations",
-                MongoDBOpsManagerUtils.getMeasurementsOnlyForCurrentMetricType("opcounter", measurements),
+                getMeasurementsOnlyForCurrentMetricType("opcounter", measurements),
                 (List) includedMetrics.get("operations"), "").populateMetrics());
         return systemMetrics;
     }
@@ -85,7 +86,7 @@ public class MongoDeploymentMetricManager {
                 String dbMeasurementsUrl = buildUrl(dbUrl, dbName + MEASUREMENTS_ENDPOINT);
                 List<JsonNode> dbMeasurements = fetchMongoEntity(dbMeasurementsUrl, "measurements");
                 dbMetrics.putAll(new MongoDbMetricProcessor(hostName, "database",
-                        MongoDBOpsManagerUtils.getMeasurementsOnlyForCurrentMetricType("database", dbMeasurements),
+                        getMeasurementsOnlyForCurrentMetricType("database", dbMeasurements),
                         (List) includedMetrics.get("database"), dbName).populateMetrics());
             }
             else {
@@ -105,7 +106,7 @@ public class MongoDeploymentMetricManager {
             String partitionUrl = buildUrl(disksUrl, partitionName + MEASUREMENTS_ENDPOINT);
             List<JsonNode> diskMeasurements = fetchMongoEntity(partitionUrl, "measurements");
             diskPartitionMetrics.putAll(new MongoDbMetricProcessor(hostName, "disk",
-                    MongoDBOpsManagerUtils.getMeasurementsOnlyForCurrentMetricType("disk", diskMeasurements),
+                    getMeasurementsOnlyForCurrentMetricType("disk", diskMeasurements),
                     (List) includedMetrics.get("disks"), partitionName).populateMetrics());
         }
         return diskPartitionMetrics;

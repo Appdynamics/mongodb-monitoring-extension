@@ -1,0 +1,8 @@
+metrics:
+     asserts:
+        - ASSERT_REGULAR:
+            alias:
+            multiplier: "This is supposed to be numeric"
+            cluster: "random"
+            aggregation: ""
+            time: "lol"

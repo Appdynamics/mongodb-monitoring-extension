@@ -1,0 +1,12 @@
+servers:
+   - uri: "http://host:port"
+     name: "Ops Manager 1"
+     username: "username"
+     password: "password"
+
+metrics:
+     asserts:
+        - ASSERT_REGULAR:
+            alias: "ASSERT_REGULAR"
+            multiplier: "1.0"
+            delta: "true"

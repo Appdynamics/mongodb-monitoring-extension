@@ -21,16 +21,16 @@ import static com.appdynamics.extensions.mongodb.metrics.MetricPropertiesBuilder
  * Created by aditya.jagtiani on 6/27/17.
  */
 
-public class MongoDBOpsManagerStats {
+class MongoDBOpsManagerStats {
     private MonitorConfiguration configuration;
     private String serverUrl;
 
-    public MongoDBOpsManagerStats(MonitorConfiguration configuration, Map server) {
+    MongoDBOpsManagerStats(MonitorConfiguration configuration, Map server) {
         this.configuration = configuration;
         this.serverUrl = UrlBuilder.fromYmlServerConfig(server).build();
     }
 
-    public Map<String, BigDecimal> populateMetrics() throws IOException {
+    Map<String, BigDecimal> populateMetrics() throws IOException {
         Map<String, BigDecimal> opsManagerMetrics = Maps.newHashMap();
         CloseableHttpClient httpClient = configuration.getHttpClient();
         Map<String, ?> config = configuration.getConfigYml();
@@ -40,7 +40,7 @@ public class MongoDBOpsManagerStats {
         return opsManagerMetrics;
     }
 
-    public void printMetrics(Map<String, BigDecimal> mongoDBMetrics) {
+    void printMetrics(Map<String, BigDecimal> mongoDBMetrics) {
         MetricWriteHelper metricWriter = configuration.getMetricWriter();
         String metricPrefix = configuration.getMetricPrefix();
         String aggregationType = DEFAULT_AGGREGATION_TYPE;

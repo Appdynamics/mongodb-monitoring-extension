@@ -1,0 +1,124 @@
+{
+  "end": "2017-08-02T17:34:49Z",
+  "granularity": "PT1M",
+  "groupId": "5972860634e7f70cfea57921",
+  "hostId": "3d116025cb98b30661cc44f071305127",
+  "links": [
+    {
+      "href": "http://localhost:8080/api/public/v1.0/groups/5972860634e7f70cfea57921/hosts/3d116025cb98b30661cc44f071305127/disks/xvda1/measurements?granularity=PT1M&period=PT1M",
+      "rel": "self"
+    },
+    {
+      "href": "http://localhost:8080/api/public/v1.0/groups/5972860634e7f70cfea57921/hosts/3d116025cb98b30661cc44f071305127",
+      "rel": "http://mms.mongodb.com/host"
+    },
+    {
+      "href": "http://localhost:8080/api/public/v1.0/groups/5972860634e7f70cfea57921",
+      "rel": "http://mms.mongodb.com/group"
+    }
+  ],
+  "measurements": [
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": "null"
+        }
+      ],
+      "name": "DISK_PARTITION_IOPS_READ",
+      "units": "SCALAR_PER_SECOND"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": 501
+        }
+      ],
+      "name": "DISK_PARTITION_IOPS_WRITE",
+      "units": "SCALAR_PER_SECOND"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": 501
+        }
+      ],
+      "name": "DISK_PARTITION_IOPS_TOTAL",
+      "units": "SCALAR_PER_SECOND"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": 501
+        }
+      ],
+      "name": "DISK_PARTITION_UTILIZATION",
+      "units": "PERCENT"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": 501
+        }
+      ],
+      "name": "DISK_PARTITION_LATENCY_READ",
+      "units": "MILLISECONDS"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": 501
+        }
+      ],
+      "name": "DISK_PARTITION_LATENCY_WRITE",
+      "units": "MILLISECONDS"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": 3522936149
+        }
+      ],
+      "name": "DISK_PARTITION_SPACE_FREE",
+      "units": "BYTES"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": 4795847339
+        }
+      ],
+      "name": "DISK_PARTITION_SPACE_USED",
+      "units": "BYTES"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": 42.349174664964345
+        }
+      ],
+      "name": "DISK_PARTITION_SPACE_PERCENT_FREE",
+      "units": "PERCENT"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-08-02T17:34:49Z",
+          "value": 57.650825335035655
+        }
+      ],
+      "name": "DISK_PARTITION_SPACE_PERCENT_USED",
+      "units": "PERCENT"
+    }
+  ],
+  "partitionName": "xvda1",
+  "start": "2017-08-02T17:34:49Z"
+}

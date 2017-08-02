@@ -1,0 +1,104 @@
+{
+  "databaseName": "local",
+  "end": "2017-07-31T22:53:17Z",
+  "granularity": "PT24H",
+  "groupId": "5972860634e7f70cfea57921",
+  "hostId": "3d116025cb98b30661cc44f071305127",
+  "links": [
+    {
+      "href": "http://localhost:8080/api/public/v1.0/groups/5972860634e7f70cfea57921/hosts/3d116025cb98b30661cc44f071305127/databases/local/measurements?granularity=PT24H&period=PT24H",
+      "rel": "self"
+    },
+    {
+      "href": "http://localhost:8080/api/public/v1.0/groups/5972860634e7f70cfea57921/hosts/3d116025cb98b30661cc44f071305127",
+      "rel": "http://mms.mongodb.com/host"
+    },
+    {
+      "href": "http://localhost:8080/api/public/v1.0/groups/5972860634e7f70cfea57921",
+      "rel": "http://mms.mongodb.com/group"
+    }
+  ],
+  "measurements": [
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-07-31T22:53:17Z",
+          "value": 847
+        }
+      ],
+      "name": "DATABASE_AVERAGE_OBJECT_SIZE",
+      "units": "BYTES"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-07-31T22:53:17Z",
+          "value": 2
+        }
+      ],
+      "name": "DATABASE_COLLECTION_COUNT",
+      "units": "SCALAR"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-07-31T22:53:17Z",
+          "value": 1694
+        }
+      ],
+      "name": "DATABASE_DATA_SIZE",
+      "units": "BYTES"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-07-31T22:53:17Z",
+          "value": 32768
+        }
+      ],
+      "name": "DATABASE_STORAGE_SIZE",
+      "units": "BYTES"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-07-31T22:53:17Z",
+          "value": 32768
+        }
+      ],
+      "name": "DATABASE_INDEX_SIZE",
+      "units": "BYTES"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-07-31T22:53:17Z",
+          "value": 2
+        }
+      ],
+      "name": "DATABASE_INDEX_COUNT",
+      "units": "SCALAR"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-07-31T22:53:17Z",
+          "value": 0
+        }
+      ],
+      "name": "DATABASE_EXTENT_COUNT",
+      "units": "SCALAR"
+    },
+    {
+      "dataPoints": [
+        {
+          "timestamp": "2017-07-31T22:53:17Z",
+          "value": 2
+        }
+      ],
+      "name": "DATABASE_OBJECT_COUNT",
+      "units": "SCALAR"
+    }
+  ],
+  "start": "2017-07-31T22:53:17Z"
+}
