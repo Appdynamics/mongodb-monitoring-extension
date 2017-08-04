@@ -49,28 +49,17 @@ public class MongoDeploymentMetricManager {
         }
         return deploymentMetrics;
     }
-
     private Map<String, BigDecimal> getHostAndSystemStats(String hostName, String hostId, String hostsUrl,
                                                           Map includedMetrics) throws IOException {
         logger.debug("Fetching Host/System stats from host : " +hostName);
         Map<String, BigDecimal> systemMetrics = Maps.newHashMap();
         String hostMeasurementsUrl = buildUrl(hostsUrl, hostId + MEASUREMENTS_ENDPOINT);
         List<JsonNode> measurements = fetchMongoEntity(hostMeasurementsUrl, "measurements");
-        systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "asserts",
-                getMeasurementsOnlyForCurrentMetricType("assert", measurements),
-                (List) includedMetrics.get("asserts"), "").populateMetrics());
-        systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "memory",
-                getMeasurementsOnlyForCurrentMetricType("memory", measurements),
-                (List) includedMetrics.get("memory"), "").populateMetrics());
-        systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "network",
-                getMeasurementsOnlyForCurrentMetricType("network", measurements),
-                (List) includedMetrics.get("network"), "").populateMetrics());
-        systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "connections",
-                getMeasurementsOnlyForCurrentMetricType("connections", measurements),
-                (List) includedMetrics.get("connections"), "").populateMetrics());
-        systemMetrics.putAll(new MongoDbMetricProcessor(hostName, "operations",
-                getMeasurementsOnlyForCurrentMetricType("opcounter", measurements),
-                (List) includedMetrics.get("operations"), "").populateMetrics());
+        Map <String, List<Map>> hostMetricsFromCfg = (Map) includedMetrics.get("hosts");
+        for(Map.Entry<String, List<Map>> entry : hostMetricsFromCfg.entrySet()) {
+            systemMetrics.putAll(new MongoDbMetricProcessor(hostName, entry.getKey(),
+                    getMeasurementsOnlyForCurrentMetricType(entry.getKey(), measurements), entry.getValue(), "").populateMetrics());
+        }
         return systemMetrics;
     }
 

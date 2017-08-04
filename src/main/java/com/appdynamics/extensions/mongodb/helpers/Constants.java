@@ -19,5 +19,5 @@ public class Constants {
     public static final String HOSTS_ENDPOINT = "/hosts/";
     public static final String DB_ENDPOINT = "/databases/";
     public static final String DISKS_ENDPOINT = "/disks/";
-    public static final String MEASUREMENTS_ENDPOINT = "/measurements?granularity=PT24H&period=PT24H";
+    public static final String MEASUREMENTS_ENDPOINT = "/measurements?granularity=PT1H&period=PT1H";
 }

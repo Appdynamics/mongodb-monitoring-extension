@@ -1,21 +1,22 @@
 metrics:
-     asserts:
-        - ASSERT_REGULAR:
-            alias: "ASSERT_REGULAR"
-            multiplier: "1.0"
-            cluster: "INDIVIDUAL"
-            aggregation: "AVERAGE"
-            time: "SUM"
-            delta: "false"
-        - ASSERT_WARNING:
-            alias: ""
-            multiplier: ""
-        - ASSERT_MSG:
-            alias: ""
-            multiplier: ""
-        - ASSERT_USER:
-            alias: ""
-            multiplier: ""
+     hosts:
+        asserts:
+           - ASSERT_REGULAR:
+               alias: "ASSERT_REGULAR"
+               multiplier: "1.0"
+               cluster: "INDIVIDUAL"
+               aggregation: "AVERAGE"
+               time: "SUM"
+               delta: "false"
+           - ASSERT_WARNING:
+               alias: ""
+               multiplier: ""
+           - ASSERT_MSG:
+               alias: ""
+               multiplier: ""
+           - ASSERT_USER:
+               alias: ""
+               multiplier: ""
 
      disks:
         - DISK_PARTITION_IOPS_READ:

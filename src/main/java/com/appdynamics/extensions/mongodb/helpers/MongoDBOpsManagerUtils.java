@@ -33,11 +33,11 @@ public class MongoDBOpsManagerUtils {
         return new BigDecimal(Math.round(value));
     }
 
-    public static boolean isValidationSuccessful(List<Map> configuredMetrics, List<JsonNode> sparkEntitiesInApplication, String entityType) {
+    public static boolean isValidationSuccessful(List<Map> configuredMetrics, List<JsonNode> mongoEntitiesInApplication, String entityType) {
         if (configuredMetrics == null || configuredMetrics.isEmpty()) {
             logger.debug("No metrics have been configured for : " + entityType + " in your config.yml.");
             return false;
-        } else if (sparkEntitiesInApplication == null || sparkEntitiesInApplication.isEmpty()) {
+        } else if (mongoEntitiesInApplication == null || mongoEntitiesInApplication.isEmpty()) {
             logger.debug("No " + entityType + " found for the current Mongo Deployment");
             return false;
         }

@@ -38,19 +38,21 @@ public class MongoDbMetricProcessorTest {
     public void populateMetricsTest_hostMetrics() throws IOException {
         metricsFromHost.add(mapper.readValue(new File("src/test/resources/hostMeasurements.json"), JsonNode.class));
         List<JsonNode> dataPoints = getMeasurements(metricsFromHost);
-        List<Map> assertMetricsFromCfg = (List) allMetrics.get("asserts");
+
+        Map hostMetrics = (Map) allMetrics.get("hosts");
+        List<Map> assertMetricsFromCfg = (List) hostMetrics.get("asserts");
         MongoDbMetricProcessor mongoDbMetricProcessor = new MongoDbMetricProcessor(hostName, "assert",
                 MongoDBOpsManagerUtils.getMeasurementsOnlyForCurrentMetricType("assert", dataPoints), assertMetricsFromCfg, "");
-        Map<String, BigDecimal> hostMetrics = mongoDbMetricProcessor.populateMetrics();
-        Assert.assertTrue(hostMetrics.size() == 4);
-        Assert.assertTrue(hostMetrics.containsKey("Hosts|host1|assert|ASSERT_MSG"));
-        Assert.assertTrue(hostMetrics.containsKey("Hosts|host1|assert|ASSERT_REGULAR"));
-        Assert.assertTrue(hostMetrics.containsKey("Hosts|host1|assert|ASSERT_USER"));
-        Assert.assertTrue(hostMetrics.containsKey("Hosts|host1|assert|ASSERT_WARNING"));
-        Assert.assertTrue(hostMetrics.get("Hosts|host1|assert|ASSERT_MSG").equals(new BigDecimal(1002)));
-        Assert.assertTrue(hostMetrics.get("Hosts|host1|assert|ASSERT_REGULAR").equals(new BigDecimal(1000)));
-        Assert.assertTrue(hostMetrics.get("Hosts|host1|assert|ASSERT_USER").equals(new BigDecimal(1003)));
-        Assert.assertTrue(hostMetrics.get("Hosts|host1|assert|ASSERT_WARNING").equals(new BigDecimal(1001)));
+        Map<String, BigDecimal> results = mongoDbMetricProcessor.populateMetrics();
+        Assert.assertTrue(results.size() == 4);
+        Assert.assertTrue(results.containsKey("Hosts|host1|assert|ASSERT_MSG"));
+        Assert.assertTrue(results.containsKey("Hosts|host1|assert|ASSERT_REGULAR"));
+        Assert.assertTrue(results.containsKey("Hosts|host1|assert|ASSERT_USER"));
+        Assert.assertTrue(results.containsKey("Hosts|host1|assert|ASSERT_WARNING"));
+        Assert.assertTrue(results.get("Hosts|host1|assert|ASSERT_MSG").equals(new BigDecimal(1002)));
+        Assert.assertTrue(results.get("Hosts|host1|assert|ASSERT_REGULAR").equals(new BigDecimal(1000)));
+        Assert.assertTrue(results.get("Hosts|host1|assert|ASSERT_USER").equals(new BigDecimal(1003)));
+        Assert.assertTrue(results.get("Hosts|host1|assert|ASSERT_WARNING").equals(new BigDecimal(1001)));
     }
 
     @Test
