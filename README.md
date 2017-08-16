@@ -1,34 +1,34 @@
 ## AppDynamics Monitoring Extension for use with MongoDB Ops Manager
 
-#### Use Case
+### Use Case
 
 MongoDB Ops Manager is a service for managing, monitoring and backing up a MongoDB infrastructure. In addition, Ops Manager allows Administrators to maintain a server pool to facilitate the deployment of MongoDB.
 
 Ops Manager provides the services described here.
 
-#Monitoring
+#### Monitoring
 
 Ops Manager Monitoring provides real-time reporting, visualization, and alerting on key database and hardware indicators.
 
 How it Works: A lightweight Monitoring Agent runs within your infrastructure and collects statistics from the nodes in your MongoDB deployment. The agent transmits database statistics back to Ops Manager to provide real-time reporting. You can set alerts on indicators you choose.
 
-#Automation
+#### Automation
 
 Ops Manager Automation provides an interface for configuring MongoDB nodes and clusters and for upgrading your MongoDB deployment.
 
-#Backup
+#### Backup
 
 Ops Manager Backup provides scheduled snapshots and point-in-time recovery of your MongoDB replica sets and sharded clusters.
 
 
-#### Prerequisites
+### Prerequisites
 
 1. This extension requires an AppDynamics Java Machine Agent up and running. 
 2. Ops Manager needs to be configured either locally or remotely and have at least one Mongo deployment (standalone or cluster)
 3. The extension accesses MongoDB's public API. Please generate an API access key from your Ops Manager homepage -> Settings -> Public API access and save it, as this key will never be visible again. This key is used will be used as your password in the config.yml. 
 4. On the same page, make sure to whitelist your domain for API access. 0.0.0.0/0 can be used to whitelist any accessing hosts. 
 
-#### Installing the Extension
+### Installing the Extension
 1.  Unzip the contents of 'MongoDBOpsManagerMonitor'-<version>.zip file and copy the directory to `<your-machine-agent-dir>/monitors</your-machine-agent-dir>`.</version>
 2.  Edit the config.yml file. An example config.yml file follows these installation instructions.
 3.  Restart the Machine Agent.
@@ -149,7 +149,7 @@ metrics:
 
 </pre>
 
-#### Workbench
+### Workbench
 
 Workbench is a feature by which you can preview the metrics before registering it with the controller. This is useful if you want to fine tune the configurations. Workbench is embedded into the extension jar.  
 To use the workbench
@@ -171,14 +171,14 @@ To use the workbench
 4.  You can make the changes to config.yml and validate it from the browser or the API
 5.  Once the configuration is complete, you can kill the workbench and start the Machine Agent.
 
-#### Support
+### Support
 
 Please contact [help@appdynamics.com](mailto:help@appdynamics.com) with the following details
 
 1.  config.yml
 2.  debug logs
 
-#### Compatibility
+### Compatibility
 
 <table border="0" cellpadding="0">
 
@@ -204,6 +204,6 @@ Please contact [help@appdynamics.com](mailto:help@appdynamics.com) with the fol
 
 </table>
 
-#### Codebase
+### Codebase
 
 You can contribute your development ideas [here.](https://github.com/Appdynamics/mongodb-opsmanager-monitoring-extension)
