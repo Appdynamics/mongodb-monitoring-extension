@@ -21,6 +21,9 @@ Ops Manager Automation provides an interface for configuring MongoDB nodes and c
 Ops Manager Backup provides scheduled snapshots and point-in-time recovery of your MongoDB replica sets and sharded clusters.
 
 
+![alt text](https://docs.opsmanager.mongodb.com/current/_images/how-it-works-ops.png)
+
+
 ### Prerequisites
 
 1. This extension requires an AppDynamics Java Machine Agent up and running. 
