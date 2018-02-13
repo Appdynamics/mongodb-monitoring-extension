@@ -6,14 +6,14 @@
 
     <groupId>mongodb-opsmanager-monitor</groupId>
     <artifactId>mongodb-opsmanager-monitor</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>mongodb-opsmanager-monitoring-extension</name>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
-        <target.dir>${project.build.directory}/com.appdynamics.extensions.mongodb.MongoDBOpsManagerMonitor</target.dir>
+        <target.dir>${project.build.directory}/MongoDBOpsManagerMonitor</target.dir>
     </properties>
     <dependencies>
         <dependency>
@@ -40,9 +40,7 @@
             <groupId>com.appdynamics</groupId>
             <artifactId>machine-agent</artifactId>
             <version>3.7.11</version>
-            <!--
-                        <scope>provided</scope>
-            -->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -146,6 +144,8 @@
                                 <copy todir="${target.dir}">
                                     <fileset dir="src/main/resources/conf" includes="monitor.xml"/>
                                     <fileset dir="src/main/resources/conf" includes="config.yml"/>
+                                    <fileset dir="${project.basedir}" includes="LICENSE.txt"/>
+                                    <fileset dir="${project.basedir}" includes="NOTICE.txt"/>
                                 </copy>
                                 <copy todir="${target.dir}">
                                     <fileset dir="${build.directory}" includes="${project.artifactId}.${project.packaging}"/>
