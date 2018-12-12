@@ -34,7 +34,7 @@ public class MongoDbMetricProcessorTest {
     private Map allMetrics;
 
     @Before
-    public void setup() throws IOException {
+    public void setup() {
         hostName = "host1";
         mapper = new ObjectMapper();
         metricsFromHost = Lists.newArrayList();

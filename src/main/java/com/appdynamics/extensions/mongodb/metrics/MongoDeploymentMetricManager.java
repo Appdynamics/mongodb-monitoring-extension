@@ -11,6 +11,8 @@ package com.appdynamics.extensions.mongodb.metrics;
 import com.appdynamics.extensions.mongodb.helpers.HttpHelper;
 import com.appdynamics.extensions.mongodb.helpers.MongoDBOpsManagerUtils;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -18,6 +20,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -39,10 +42,11 @@ public class MongoDeploymentMetricManager {
         this.serverUrl = serverUrl;
     }
 
-    public Map<String, BigDecimal> populateStats(Map<String, Map> includedMetrics, List<String> databasesFromCfg) throws IOException {
+    public Map<String, BigDecimal> populateStats(Map<String, Map> includedMetrics, List<String> databasesFromCfg) {
         Map<String, BigDecimal> deploymentMetrics = Maps.newHashMap();
         String groupsUrl = buildUrl(serverUrl, GROUPS_ENDPOINT);
         List<JsonNode> groups = fetchMongoEntity(groupsUrl, "results");
+
         for (JsonNode group : groups) {
             String groupId = group.get("id").asText();
             String hostsUrl = buildUrl(groupsUrl, groupId + HOSTS_ENDPOINT);
@@ -57,14 +61,15 @@ public class MongoDeploymentMetricManager {
         }
         return deploymentMetrics;
     }
+
     private Map<String, BigDecimal> getHostAndSystemStats(String hostName, String hostId, String hostsUrl,
-                                                          Map includedMetrics) throws IOException {
-        logger.debug("Fetching Host/System stats from host : " +hostName);
+                                                          Map includedMetrics) {
+        logger.debug("Fetching Host/System stats from host : " + hostName);
         Map<String, BigDecimal> systemMetrics = Maps.newHashMap();
         String hostMeasurementsUrl = buildUrl(hostsUrl, hostId + MEASUREMENTS_ENDPOINT);
         List<JsonNode> measurements = fetchMongoEntity(hostMeasurementsUrl, "measurements");
-        Map <String, List<Map>> hostMetricsFromCfg = (Map) includedMetrics.get("hosts");
-        for(Map.Entry<String, List<Map>> entry : hostMetricsFromCfg.entrySet()) {
+        Map<String, List<Map>> hostMetricsFromCfg = (Map) includedMetrics.get("hosts");
+        for (Map.Entry<String, List<Map>> entry : hostMetricsFromCfg.entrySet()) {
             systemMetrics.putAll(new MongoDbMetricProcessor(hostName, entry.getKey(),
                     getMeasurementsOnlyForCurrentMetricType(entry.getKey(), measurements), entry.getValue(), "").populateMetrics());
         }
@@ -72,29 +77,28 @@ public class MongoDeploymentMetricManager {
     }
 
     private Map<String, BigDecimal> getDBStats(String hostName, String hostId, String hostsUrl, Map includedMetrics,
-                                               List<String> databasesFromCfg) throws IOException {
-        logger.debug("Fetching DB stats from host : " +hostName);
+                                               List<String> databasesFromCfg) {
+        logger.debug("Fetching DB stats from host : " + hostName);
         Map<String, BigDecimal> dbMetrics = Maps.newHashMap();
         String dbUrl = buildUrl(hostsUrl, hostId + DB_ENDPOINT);
         List<JsonNode> databases = fetchMongoEntity(dbUrl, "results");
         for (JsonNode database : databases) {
             String dbName = database.findValue("databaseName").asText();
-            if(databasesFromCfg.contains(dbName)) {
+            if (databasesFromCfg.contains(dbName)) {
                 String dbMeasurementsUrl = buildUrl(dbUrl, dbName + MEASUREMENTS_ENDPOINT);
                 List<JsonNode> dbMeasurements = fetchMongoEntity(dbMeasurementsUrl, "measurements");
                 dbMetrics.putAll(new MongoDbMetricProcessor(hostName, "database",
                         getMeasurementsOnlyForCurrentMetricType("database", dbMeasurements),
                         (List) includedMetrics.get("database"), dbName).populateMetrics());
-            }
-            else {
-                logger.debug("Skipping database : " +dbName+ ". Please add it to the config.yml if you'd like it to be monitored.") ;
+            } else {
+                logger.debug("Skipping database : " + dbName + ". Please add it to the config.yml if you'd like it to be monitored.");
             }
         }
         return dbMetrics;
     }
 
-    private Map<String, BigDecimal> getDiskPartitionStats(String hostName, String hostId, String hostsUrl, Map includedMetrics) throws IOException {
-        logger.debug("Fetching disk and partition stats from host : " +hostName);
+    private Map<String, BigDecimal> getDiskPartitionStats(String hostName, String hostId, String hostsUrl, Map includedMetrics) {
+        logger.debug("Fetching disk and partition stats from host : " + hostName);
         Map<String, BigDecimal> diskPartitionMetrics = Maps.newHashMap();
         String disksUrl = buildUrl(hostsUrl, hostId + DISKS_ENDPOINT);
         List<JsonNode> disks = fetchMongoEntity(disksUrl, "results");
@@ -114,14 +118,19 @@ public class MongoDeploymentMetricManager {
         return url.append(suffix).toString();
     }
 
-    private List<JsonNode> fetchMongoEntity(String url, String entityName) throws IOException {
+    private List<JsonNode> fetchMongoEntity(String url, String entityName) {
         CloseableHttpResponse httpResponse = null;
         List<JsonNode> details = Lists.newArrayList();
         try {
             httpResponse = HttpHelper.doGet(httpClient, url);
             JsonNode jsonNode = MongoDBOpsManagerUtils.getJsonNode(httpResponse);
-            for (JsonNode node : jsonNode.get(entityName)) {
-                details.add(node);
+            if (jsonNode.get(entityName).size() > 0) {
+                logger.debug("Processing entity: {} from URL: {}", entityName, url);
+                for (JsonNode node : jsonNode.get(entityName)) {
+                    details.add(node);
+                }
+            } else {
+                logger.debug("Skipping entity: {} as it returned no data from URL: {}", entityName, url);
             }
         } catch (Exception ex) {
             logger.error("Error while fetching results from url " + url);

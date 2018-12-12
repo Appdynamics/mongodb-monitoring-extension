@@ -78,11 +78,4 @@ public class MongoDBOpsManagerMonitor extends AManagedMonitor {
     private static String getImplementationVersion() {
         return MongoDBOpsManagerMonitor.class.getPackage().getImplementationVersion();
     }
-
-    public static void main(String[] args) throws TaskExecutionException {
-        MongoDBOpsManagerMonitor mongoDBMonitor = new MongoDBOpsManagerMonitor();
-        Map<String, String> argsMap = new HashMap<String, String>();
-        argsMap.put("config-file", "/Users/aditya.jagtiani/repos/appdynamics/extensions/mongodb-opsmanager-monitoring-extension/src/main/resources/conf/config.yml");
-        mongoDBMonitor.execute(argsMap, null);
-    }
 }

@@ -42,7 +42,7 @@ class MongoDbMetricProcessor {
         this.entityName = entityName;
     }
 
-    Map<String, BigDecimal> populateMetrics() throws IOException {
+    Map<String, BigDecimal> populateMetrics() {
         String currentMetricPath;
         if (!MongoDBOpsManagerUtils.isValidationSuccessful(metricsFromConfig, metricsFromHost, metricType)) {
             return Maps.newHashMap();
@@ -60,14 +60,21 @@ class MongoDbMetricProcessor {
             for (Map metric : metricsFromConfig) {
                 Map.Entry<String, String> entry = (Map.Entry) metric.entrySet().iterator().next();
                 String currentMetricNameFromCfg = entry.getKey();
-                JsonNode value = node.findValue("dataPoints").findValue("value");
-                if (node.findValue("name").asText().equals(currentMetricNameFromCfg) && !value.asText().equals("null")) {
-                    mongoDbMetrics.put(currentMetricPath + currentMetricNameFromCfg, MongoDBOpsManagerUtils.convertDoubleToBigDecimal(value.asDouble()));
-                    if (entry.getValue() != null) {
-                        MetricPropertiesBuilder.buildMetricPropsMap(metric, currentMetricNameFromCfg, currentMetricPath);
+                if(node.findValue("dataPoints").findValue("value") != null) {
+                    logger.debug("Data point found for metric: {} in host: {}. Attempting to fetch value", currentMetricNameFromHost, hostName);
+                    JsonNode value = node.findValue("dataPoints").findValue("value");
+                    if (node.findValue("name").asText().equals(currentMetricNameFromCfg) && !value.asText().equals("null")) {
+                        mongoDbMetrics.put(currentMetricPath + currentMetricNameFromCfg, MongoDBOpsManagerUtils.convertDoubleToBigDecimal(value.asDouble()));
+                        if (entry.getValue() != null) {
+                            MetricPropertiesBuilder.buildMetricPropsMap(metric, currentMetricNameFromCfg, currentMetricPath);
+                        }
+                        else {
+                            logger.debug("Null value found for metric: {} in host: {}. Skipping", currentMetricNameFromHost, hostName);
+                        }
                     }
-                } else {
-                    logger.debug("Metric " + currentMetricNameFromHost + " not found for host : " + hostName + " or it's value is null. Skipping.");
+                }
+                else {
+                    logger.debug("Metric " + currentMetricNameFromHost + " does not have any data points in : " + hostName + ". Skipping.");
                 }
             }
         }
