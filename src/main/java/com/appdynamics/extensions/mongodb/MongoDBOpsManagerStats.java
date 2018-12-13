@@ -19,6 +19,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +73,7 @@ class MongoDBOpsManagerStats {
                 timeRollupType = propertiesForCurrentMetric.getTimeRollupType();
             }
             if (metricValue != null) {
-                metricWriter.printMetric(metricPath, String.valueOf(metricValue), aggregationType, timeRollupType, clusterRollupType);
+                metricWriter.printMetric(metricPath, String.valueOf(metricValue.setScale(0, RoundingMode.CEILING)), aggregationType, timeRollupType, clusterRollupType);
             }
         }
     }
