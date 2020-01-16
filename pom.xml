@@ -6,9 +6,9 @@
 
     <groupId>mongodb-opsmanager-monitor</groupId>
     <artifactId>mongodb-opsmanager-monitor</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
-    <name>mongodb-opsmanager-monitoring-extension</name>
+    <name>mongodb-opsmanager-monitor</name>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -151,7 +151,7 @@
                                     <fileset dir="${build.directory}" includes="${project.artifactId}.${project.packaging}"/>
                                 </copy>
                                 <zip destfile="${target.dir}-${project.version}.zip">
-                                    <zipfileset dir="${target.dir}" filemode="755" prefix="com.appdynamics.extensions.mongodb.MongoDBOpsManagerMonitor/"/>
+                                    <zipfileset dir="${target.dir}" filemode="755" prefix="MongoDBOpsManagerMonitor/"/>
                                 </zip>
                                 <delete dir="${target.dir}"/>
                             </target>
