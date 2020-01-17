@@ -23,6 +23,7 @@ import static com.appdynamics.extensions.mongodb.helpers.Constants.METRIC_SEPARA
 
 /**
  * Created by aditya.jagtiani on 7/12/17.
+ * Updated by Mark.Walmsley on 6/29/18.
  */
 
 class MongoDbMetricProcessor {
@@ -32,10 +33,19 @@ class MongoDbMetricProcessor {
     private List<JsonNode> metricsFromHost;
     private String metricType;
     private String entityName;
+    private String groupName;
+    private String metricTemplate;
 
-    MongoDbMetricProcessor(String hostName, String metricType, List<JsonNode> metricsFromHost,
-                           List<Map> metricsFromConfig, String entityName) {
+    MongoDbMetricProcessor(String hostName, 
+    					   String metricType, 
+    					   String groupName,
+    					   String metricTemplate,
+    					   List<JsonNode> metricsFromHost,
+                           List<Map> metricsFromConfig, 
+                           String entityName) {
         this.hostName = hostName;
+        this.groupName = groupName;
+        this.metricTemplate = metricTemplate;
         this.metricType = metricType;
         this.metricsFromHost = metricsFromHost;
         this.metricsFromConfig = metricsFromConfig;
@@ -50,18 +60,19 @@ class MongoDbMetricProcessor {
         Map<String, BigDecimal> mongoDbMetrics = Maps.newHashMap();
         for (JsonNode node : metricsFromHost) {
             String currentMetricNameFromHost = node.findValue("name").asText();
-            if (!entityName.equals("")) {
-                currentMetricPath = "Hosts" + METRIC_SEPARATOR + hostName + METRIC_SEPARATOR + metricType +
-                        METRIC_SEPARATOR + entityName + METRIC_SEPARATOR;
-            } else {
-                currentMetricPath = "Hosts" + METRIC_SEPARATOR + hostName + METRIC_SEPARATOR + metricType + METRIC_SEPARATOR;
-            }
-            logger.info("Fetching " + metricType + " metrics for host " + hostName);
+            currentMetricPath = MongoDBOpsManagerUtils.processTemplate(metricTemplate, 
+					  			hostName, 
+					  			groupName, 
+					  			"", 
+					  			entityName);
+            currentMetricPath += METRIC_SEPARATOR + metricType + METRIC_SEPARATOR;
+
+            logger.debug("Fetching " + metricType + " metrics for host " + hostName);
             for (Map metric : metricsFromConfig) {
                 Map.Entry<String, String> entry = (Map.Entry) metric.entrySet().iterator().next();
                 String currentMetricNameFromCfg = entry.getKey();
                 JsonNode value = node.findValue("dataPoints").findValue("value");
-                if (node.findValue("name").asText().equals(currentMetricNameFromCfg) && !value.asText().equals("null")) {
+                if (node.findValue("name").asText().equals(currentMetricNameFromCfg) && value != null && !value.asText().equals("null")) {
                     mongoDbMetrics.put(currentMetricPath + currentMetricNameFromCfg, MongoDBOpsManagerUtils.convertDoubleToBigDecimal(value.asDouble()));
                     if (entry.getValue() != null) {
                         MetricPropertiesBuilder.buildMetricPropsMap(metric, currentMetricNameFromCfg, currentMetricPath);

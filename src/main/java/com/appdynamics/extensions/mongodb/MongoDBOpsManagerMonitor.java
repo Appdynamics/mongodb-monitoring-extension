@@ -10,6 +10,7 @@ package com.appdynamics.extensions.mongodb;
 
 /**
  * Created by aditya.jagtiani on 6/27/17.
+ * Updated by Mark.Walmsley on 6/29/18.
  */
 
 import com.appdynamics.extensions.conf.MonitorConfiguration;
@@ -82,7 +83,7 @@ public class MongoDBOpsManagerMonitor extends AManagedMonitor {
     public static void main(String[] args) throws TaskExecutionException {
         MongoDBOpsManagerMonitor mongoDBMonitor = new MongoDBOpsManagerMonitor();
         Map<String, String> argsMap = new HashMap<String, String>();
-        argsMap.put("config-file", "/Users/aditya.jagtiani/repos/appdynamics/extensions/mongodb-opsmanager-monitoring-extension/src/main/resources/conf/config.yml");
+        argsMap.put("config-file", "C:/AppDynamics/MachineAgent/monitors/MongoDBOpsManagerMonitor/config.yml");
         mongoDBMonitor.execute(argsMap, null);
     }
 }

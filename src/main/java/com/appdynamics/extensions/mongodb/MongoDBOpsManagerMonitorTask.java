@@ -9,6 +9,7 @@
 package com.appdynamics.extensions.mongodb;
 
 import com.appdynamics.extensions.conf.MonitorConfiguration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,13 +37,14 @@ public class MongoDBOpsManagerMonitorTask implements Runnable {
     }
 
     private void populateAndPrintStats() {
-        try {
+        try {        
             MongoDBOpsManagerStats mongoDBStats = new MongoDBOpsManagerStats(configuration, server);
             Map<String, BigDecimal> allMetrics = mongoDBStats.populateMetrics();
             mongoDBStats.printMetrics(allMetrics);
             logger.info("Successfully completed the MongoDB Monitoring Task for server:  " + server.get("name").toString());
         } catch (Exception ex) {
             logger.error("MongoDB Monitoring Task Failed for server: " +server.get("name").toString(), ex.getMessage());
+            logger.error("Error while Populating the metrics", ex);
         }
     }
 }
