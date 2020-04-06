@@ -141,7 +141,7 @@ public class MongoDeploymentMetricManager {
                 details.add(node);
             }
         } catch (Exception ex) {
-            logger.error("Error while fetching results from url " + url);
+            logger.error("Error while fetching results from url " + url + ". Exception details: " + ex.getMessage());
         } finally {
             HttpHelper.closeHttpResponse(httpResponse);
         }
