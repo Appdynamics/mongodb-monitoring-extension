@@ -13,13 +13,13 @@ import com.appdynamics.extensions.mongodb.metrics.MetricPropertiesBuilder;
 import com.appdynamics.extensions.util.MetricWriteHelper;
 import com.appdynamics.extensions.yml.YmlReader;
 import com.google.common.collect.Maps;
-import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -67,11 +67,4 @@ public class MongoDBOpsManagerStatsTest {
     }
 
 
-
-    public static void main(String[] args) throws TaskExecutionException {
-        MongoDBOpsManagerMonitor mongoDBMonitor = new MongoDBOpsManagerMonitor();
-        Map<String, String> argsMap = new HashMap<String, String>();
-        argsMap.put("config-file", "/Users/ewennerb/workspace/cvs/mongodb-opsmanager-monitoring-extension/src/main/resources/conf/config.yml");
-        mongoDBMonitor.execute(argsMap, null);
-    }
 }
