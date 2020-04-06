@@ -67,7 +67,7 @@ class MongoDbMetricProcessor {
                         MetricPropertiesBuilder.buildMetricPropsMap(metric, currentMetricNameFromCfg, currentMetricPath);
                     }
                 } else {
-                    logger.debug("Metric " + currentMetricNameFromHost + " not found for host : " + hostName + " or it's value is null. Skipping.");
+                    logger.info("Metric " + currentMetricNameFromHost + " not found for host : " + hostName + " or it's value is null. Skipping.");
                 }
             }
         }

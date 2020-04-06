@@ -5,10 +5,10 @@ metricPrefix: "Server|Component:<COMPONENT_ID>|Custom Metrics|MongoDB Ops Manage
 
 #Add your MongoDB OPS Manager server here.
 servers:
-   - uri: "http://54.218.226.84:8080/api/public/v1.0/"
+   - uri: "http://localhost:8080/api/public/v1.0/"
      name: "Ops Manager 1"
-     username: ""
-     password: ""
+     username: "ishwwhdm"
+     password: "8e2f46e8-53e1-4876-93c2-8118f1ff58c6"
 
 encryptionKey:
 
