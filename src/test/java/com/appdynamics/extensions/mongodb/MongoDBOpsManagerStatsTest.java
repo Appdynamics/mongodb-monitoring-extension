@@ -43,15 +43,15 @@ public class MongoDBOpsManagerStatsTest {
         mongoDBOpsManagerStats = new MongoDBOpsManagerStats(configuration, server);
     }
 
-//    @Test
-//    public void printMetricsTest_whenDeltaIsTrue() {
-//        buildMetricMapForDelta(new BigDecimal(5));
-//        mongoDBOpsManagerStats.printMetrics(mongoDBMetrics);
-//        verify(metricWriter, never()).printMetric(anyString(), anyString(), anyString(), anyString(), anyString());
-//        buildMetricMapForDelta(new BigDecimal(10));
-//        mongoDBOpsManagerStats.printMetrics(mongoDBMetrics);
-//        verify(metricWriter, times(1)).printMetric(anyString(), anyString(), anyString(), anyString(), anyString());
-//    }
+    @Test
+    public void printMetricsTest_whenDeltaIsTrue() {
+        buildMetricMapForDelta(new BigDecimal(5));
+        mongoDBOpsManagerStats.printMetrics(mongoDBMetrics);
+        verify(metricWriter, never()).printMetric(anyString(), anyString(), anyString(), anyString(), anyString());
+        buildMetricMapForDelta(new BigDecimal(10));
+        mongoDBOpsManagerStats.printMetrics(mongoDBMetrics);
+        verify(metricWriter, times(1)).printMetric(anyString(), anyString(), anyString(), anyString(), anyString());
+    }
 
     private void buildMetricPropsMapForTest() {
         Map<String, ?> config = YmlReader.readFromFile(new File("src/test/resources/conf/config_delta.yml"));
