@@ -61,14 +61,18 @@ class MongoDbMetricProcessor {
                 Map.Entry<String, String> entry = (Map.Entry) metric.entrySet().iterator().next();
                 String currentMetricNameFromCfg = entry.getKey();
                 JsonNode value = node.findValue("dataPoints").findValue("value");
-                if (node.findValue("name").asText().equals(currentMetricNameFromCfg) && !value.asText().equals("null")) {
-                    mongoDbMetrics.put(currentMetricPath + currentMetricNameFromCfg, MongoDBOpsManagerUtils.convertDoubleToBigDecimal(value.asDouble()));
-                    if (entry.getValue() != null) {
-                        MetricPropertiesBuilder.buildMetricPropsMap(metric, currentMetricNameFromCfg, currentMetricPath);
+                if(value != null) {
+                    if (node.findValue("name").asText().equals(currentMetricNameFromCfg) && !value.asText().equals("null")) {
+                        mongoDbMetrics.put(currentMetricPath + currentMetricNameFromCfg, MongoDBOpsManagerUtils.convertDoubleToBigDecimal(value.asDouble()));
+                        if (entry.getValue() != null) {
+                            MetricPropertiesBuilder.buildMetricPropsMap(metric, currentMetricNameFromCfg, currentMetricPath);
+                        }
                     }
-                } else {
+                }
+                else {
                     logger.info("Metric " + currentMetricNameFromHost + " not found for host : " + hostName + " or it's value is null. Skipping.");
                 }
+
             }
         }
         return mongoDbMetrics;
