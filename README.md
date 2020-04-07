@@ -183,15 +183,17 @@ Please contact [help@appdynamics.com](mailto:help@appdynamics.com) with the fol
 
 ### Compatibility
 
+This extension was tested with Ops manager 4.2.4 and Machine agent version 4.5.7.
+
 <table border="0" cellpadding="0">
 
 <tbody>
 
 <tr>
 
-<td style="text-align: right; width: 210px">Version</td>
+<td style="text-align: right; width: 210px">Ops manager Version</td>
 
-<td>2.1.0</td>
+<td>3.4+</td>
 
 </tr>
 
