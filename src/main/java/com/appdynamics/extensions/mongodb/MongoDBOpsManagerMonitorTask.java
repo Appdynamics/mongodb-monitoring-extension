@@ -42,7 +42,7 @@ public class MongoDBOpsManagerMonitorTask implements Runnable {
             mongoDBStats.printMetrics(allMetrics);
             logger.info("Successfully completed the MongoDB Monitoring Task for server:  " + server.get("name").toString());
         } catch (Exception ex) {
-            logger.error("MongoDB Monitoring Task Failed for server: " +server.get("name").toString(), ex.getMessage());
+            logger.error("MongoDB Monitoring Task Failed for server: " +server.get("name").toString() + " exception: " +ex.getMessage());
         }
     }
 }

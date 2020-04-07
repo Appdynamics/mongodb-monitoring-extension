@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,13 +44,26 @@ public class MongoDeploymentMetricManager {
         Map<String, BigDecimal> deploymentMetrics = Maps.newHashMap();
         String groupsUrl = buildUrl(serverUrl, GROUPS_ENDPOINT);
         List<JsonNode> groups = fetchMongoEntity(groupsUrl, "results");
+
+        if(groups.size() == 0){
+            logger.debug("No groups found for current ops manager user. Check your access in ops manager.");
+        }
+
         for (JsonNode group : groups) {
             String groupId = group.get("id").asText();
             String hostsUrl = buildUrl(groupsUrl, groupId + HOSTS_ENDPOINT);
             List<JsonNode> hosts = fetchMongoEntity(hostsUrl, "results");
+
+
+            if(hosts.size() == 0){
+                logger.debug("No hosts found for current group " + groupId);
+            }
+
             for (JsonNode host : hosts) {
+
                 String hostName = host.findValue("hostname").asText();
                 String hostId = host.findValue("id").asText();
+                logger.debug("Getting information for host " + hostName + " " + hostId );
                 deploymentMetrics.putAll(getHostAndSystemStats(hostName, hostId, hostsUrl, includedMetrics));
                 deploymentMetrics.putAll(getDBStats(hostName, hostId, hostsUrl, includedMetrics, databasesFromCfg));
                 deploymentMetrics.putAll(getDiskPartitionStats(hostName, hostId, hostsUrl, includedMetrics));
@@ -59,7 +73,7 @@ public class MongoDeploymentMetricManager {
     }
     private Map<String, BigDecimal> getHostAndSystemStats(String hostName, String hostId, String hostsUrl,
                                                           Map includedMetrics) throws IOException {
-        logger.debug("Fetching Host/System stats from host : " +hostName);
+        logger.debug("Fetching Host/System stats from host : " + hostName);
         Map<String, BigDecimal> systemMetrics = Maps.newHashMap();
         String hostMeasurementsUrl = buildUrl(hostsUrl, hostId + MEASUREMENTS_ENDPOINT);
         List<JsonNode> measurements = fetchMongoEntity(hostMeasurementsUrl, "measurements");
@@ -73,7 +87,7 @@ public class MongoDeploymentMetricManager {
 
     private Map<String, BigDecimal> getDBStats(String hostName, String hostId, String hostsUrl, Map includedMetrics,
                                                List<String> databasesFromCfg) throws IOException {
-        logger.debug("Fetching DB stats from host : " +hostName);
+        logger.debug("Fetching DB stats from host : " + hostName);
         Map<String, BigDecimal> dbMetrics = Maps.newHashMap();
         String dbUrl = buildUrl(hostsUrl, hostId + DB_ENDPOINT);
         List<JsonNode> databases = fetchMongoEntity(dbUrl, "results");
@@ -94,7 +108,7 @@ public class MongoDeploymentMetricManager {
     }
 
     private Map<String, BigDecimal> getDiskPartitionStats(String hostName, String hostId, String hostsUrl, Map includedMetrics) throws IOException {
-        logger.debug("Fetching disk and partition stats from host : " +hostName);
+        logger.debug("Fetching disk and partition stats from host : " + hostName);
         Map<String, BigDecimal> diskPartitionMetrics = Maps.newHashMap();
         String disksUrl = buildUrl(hostsUrl, hostId + DISKS_ENDPOINT);
         List<JsonNode> disks = fetchMongoEntity(disksUrl, "results");
@@ -120,11 +134,14 @@ public class MongoDeploymentMetricManager {
         try {
             httpResponse = HttpHelper.doGet(httpClient, url);
             JsonNode jsonNode = MongoDBOpsManagerUtils.getJsonNode(httpResponse);
+
+            logger.debug("Response from Mongo DB ops manager: " + httpResponse.getStatusLine().getStatusCode() + " " + jsonNode.toString());
+
             for (JsonNode node : jsonNode.get(entityName)) {
                 details.add(node);
             }
         } catch (Exception ex) {
-            logger.error("Error while fetching results from url " + url);
+            logger.error("Error while fetching results from url " + url + ". Exception details: " + ex.getMessage());
         } finally {
             HttpHelper.closeHttpResponse(httpResponse);
         }

@@ -6,7 +6,7 @@
 
     <groupId>mongodb-opsmanager-monitor</groupId>
     <artifactId>mongodb-opsmanager-monitor</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
     <name>mongodb-opsmanager-monitor</name>
     <url>http://maven.apache.org</url>

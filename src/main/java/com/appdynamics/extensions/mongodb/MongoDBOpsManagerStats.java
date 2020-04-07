@@ -16,9 +16,13 @@ import com.appdynamics.extensions.mongodb.metrics.MongoDeploymentMetricManager;
 import com.appdynamics.extensions.util.MetricWriteHelper;
 import com.google.common.collect.Maps;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +34,7 @@ import static com.appdynamics.extensions.mongodb.metrics.MetricPropertiesBuilder
  */
 
 class MongoDBOpsManagerStats {
+    private static final Logger logger = LoggerFactory.getLogger(MongoDeploymentMetricManager.class);
     private MonitorConfiguration configuration;
     private String serverUrl;
 
@@ -43,6 +48,9 @@ class MongoDBOpsManagerStats {
         CloseableHttpClient httpClient = configuration.getHttpClient();
         Map<String, ?> config = configuration.getConfigYml();
         List<String> databasesFromCfg = (List) config.get("databases");
+        if(databasesFromCfg.size() == 0){
+            logger.error("No databases defined in configuration");
+        }
         MongoDeploymentMetricManager mongoDeploymentMetricManager = new MongoDeploymentMetricManager(serverUrl, httpClient);
         opsManagerMetrics.putAll(mongoDeploymentMetricManager.populateStats((Map) config.get("metrics"), databasesFromCfg));
         return opsManagerMetrics;
@@ -72,8 +80,13 @@ class MongoDBOpsManagerStats {
                 timeRollupType = propertiesForCurrentMetric.getTimeRollupType();
             }
             if (metricValue != null) {
-                metricWriter.printMetric(metricPath, String.valueOf(metricValue), aggregationType, timeRollupType, clusterRollupType);
+                String metricValStr = toBigIntString(metricValue);
+                metricWriter.printMetric(metricPath, metricValStr, aggregationType, timeRollupType, clusterRollupType);
             }
         }
+    }
+
+    String toBigIntString(final BigDecimal bigD) {
+        return bigD.setScale(0, RoundingMode.HALF_UP).toBigInteger().toString();
     }
 }
